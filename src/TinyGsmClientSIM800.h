@@ -26,7 +26,7 @@
 #include "TinyGsmTCP.tpp"
 #include "TinyGsmTime.tpp"
 #include "TinyGsmNTP.tpp"
-
+#include <esp_task_wdt.h>
 #define GSM_NL "\r\n"
 static const char GSM_OK[] TINY_GSM_PROGMEM    = "OK" GSM_NL;
 static const char GSM_ERROR[] TINY_GSM_PROGMEM = "ERROR" GSM_NL;
@@ -722,6 +722,7 @@ class TinyGsmSim800 : public TinyGsmModem<TinyGsmSim800>,
           data = "";
           DBG("### Daylight savings time state updated.");
         }
+        esp_task_wdt_reset(); //https://note.com/code4susono/n/n13dc9e26a18a
       }
     } while (millis() - startMillis < timeout_ms);
   finish:
